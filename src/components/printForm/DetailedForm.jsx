@@ -1,6 +1,6 @@
 'use client';
 import React, {useContext, useState} from 'react';
-import './printForm.css';
+import './printFormStyles.css';
 import {UserContext} from '@/userContext/UserContext';
 import {DataContext} from '@/dataContext/DataContext';
 import {USER_ROLES} from '@/constants/constants';
