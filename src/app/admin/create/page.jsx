@@ -13,7 +13,8 @@ import {WORK_TIME_INTERVALS} from '@/constants/constants';
 import {checkInTimeInterval, convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import {NotificationManager} from 'react-notifications';
 import '@/components/printForm/printForm.css';
-import PrintForm from '../../../components/printForm/printForm';
+import PrintForm from '@/components/printForm/printForm.jsx';
+
 
 export default function Create() {
   let router = [];

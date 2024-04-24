@@ -7,11 +7,11 @@ import 'react-notifications/lib/notifications.css';
 import axios from 'axios';
 import {UserContext} from '../../userContext/UserContext';
 import {usePathname, useRouter} from 'next/navigation';
-import PrintForm from '../../components/printForm/printForm';
 import {NotificationManager} from 'react-notifications';
 import {DataContext} from '../../dataContext/DataContext';
 import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import Select from 'react-select';
+import PrintForm from '@/components/printForm/printForm.jsx';
 
 export default function Doctor() {
   const {userContextState} = useContext(UserContext);
