@@ -1,0 +1,18 @@
+.admin_create_form {
+  display: flex;
+  width: 800px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-direction: column;
+}
+
+.inputs_wrapper {
+  display: flex;
+  min-width: 100%;
+  flex-direction: column;
+}
+
+.create_form_btns {
+  margin-top: 1rem;
+}

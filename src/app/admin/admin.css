@@ -1,0 +1,34 @@
+
+.admin_content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nav_wrapper {
+  display: flex;
+  max-width: 30vw;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+}
+
+.nav_btn_big {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  background-color: #9af3c6;
+  cursor: pointer;
+}
+
+.nav_btn_big:hover {
+  background-color: #9af3c7b9;
+}
+
+.nav_btn_big:active {
+  background-color: #c3f7dd;
+}

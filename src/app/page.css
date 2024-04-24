@@ -1,0 +1,21 @@
+.main_page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ath_form {
+  display: flex;
+  width: 30vw;
+  min-width: 300px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.login_btn{
+  background-color: white;
+}
+

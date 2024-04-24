@@ -1,0 +1,26 @@
+.doctor_form {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 600px));
+  width: 100%;
+  justify-content: center;
+}
+
+.doctor_action_btn_wrapper {
+  display: grid;
+  width: 90%;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  grid-auto-flow: row;
+}
+
+.doctor_btn {
+  font-weight: bolder;
+  height: 5rem;
+}
+
+.pat_select {
+  margin-top: 7px;
+  z-index: 1;
+
+}

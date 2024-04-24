@@ -1,0 +1,12 @@
+.delete_modal {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top: 40%;
+  width: 300px;
+  background-color: rgb(242, 162, 162);
+  border-radius: 4px;
+  padding: 2rem;
+}

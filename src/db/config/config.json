@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "u2275377_clinic",
+    "password": "3Sq-cD5-gmZ-CBr",
+    "database": "u2275377_clinic",
+    "host": "31.31.198.240",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
