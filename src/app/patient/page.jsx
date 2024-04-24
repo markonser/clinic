@@ -1,16 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import {USER_ROLES} from '@/constants/constants';
 import './patient.css';
 import React, {useContext, useEffect, useState} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import {UserContext} from '../../userContext/UserContext';
-import Header from '@/components/header/header';
 import axios from 'axios';
 import {fromUnixTimeToHumanFormat} from '@/utils/getLocalTimeForDisplay';
-import PrintForm from '@/components/printForm/PrintForm';
 import {NotificationManager} from 'react-notifications';
+import PrintForm from '@/components/printForm/PrintForm';
 
 
 export default function Patient() {

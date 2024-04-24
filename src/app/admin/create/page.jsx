@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Link from 'next/link';
 import './create.css';
 import '../../styles/input.css';
 import {UserContext} from '@/userContext/UserContext';
 import Select from 'react-select';
 import {DataContext} from '@/dataContext/DataContext';
-import {usePathname, useRouter} from 'next/navigation';
-import Header from '@/components/header/header';
+import {useRouter} from 'next/navigation';
 import axios from 'axios';
-import {USER_ROLES, WORK_TIME_INTERVALS} from '@/constants/constants';
+import {WORK_TIME_INTERVALS} from '@/constants/constants';
 import {checkInTimeInterval, convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import {NotificationManager} from 'react-notifications';
 import '@/components/printForm/printForm.css';
-import PrintForm from '@/components/printForm/printForm';
+import PrintForm from '../../../components/printForm/printForm';
 
 export default function Create() {
   let router = [];

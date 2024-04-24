@@ -1,18 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import './doctor.css';
 import '../styles/input.css';
 import 'react-notifications/lib/notifications.css';
 import axios from 'axios';
 import {UserContext} from '../../userContext/UserContext';
-import Header from '@/components/header/header';
 import {usePathname, useRouter} from 'next/navigation';
-import {USER_ROLES} from '@/constants/constants';
-import PrintForm from '@/components/printForm/printForm';
+import PrintForm from '../../components/printForm/printForm';
 import {NotificationManager} from 'react-notifications';
 import {DataContext} from '../../dataContext/DataContext';
-import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange, getLocalTimeFromUnixToDayTimeInput} from '@/utils/getLocalTimeForDisplay';
+import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import Select from 'react-select';
 
 export default function Doctor() {
