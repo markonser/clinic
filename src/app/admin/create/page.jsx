@@ -12,7 +12,7 @@ import axios from 'axios';
 import {WORK_TIME_INTERVALS} from '@/constants/constants';
 import {checkInTimeInterval, convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import {NotificationManager} from 'react-notifications';
-import '@/components/printForm/printForm.css';
+import '@/components/printForm/printFormStyles.css';
 import PrintForm from '@/components/printForm/DetailedForm.jsx';
 
 
