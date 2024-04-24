@@ -8,7 +8,7 @@ import {UserContext} from '../../userContext/UserContext';
 import axios from 'axios';
 import {fromUnixTimeToHumanFormat} from '@/utils/getLocalTimeForDisplay';
 import {NotificationManager} from 'react-notifications';
-import PrintForm from '@/components/printForm/printForm';
+import PrintForm from '@/components/printForm/DetailedForm';
 
 
 export default function Patient() {

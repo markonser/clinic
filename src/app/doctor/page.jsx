@@ -11,7 +11,7 @@ import {NotificationManager} from 'react-notifications';
 import {DataContext} from '../../dataContext/DataContext';
 import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import Select from 'react-select';
-import PrintForm from '@/components/printForm/printForm.jsx';
+import PrintForm from '@/components/printForm/DetailedForm.jsx';
 
 export default function Doctor() {
   const {userContextState} = useContext(UserContext);

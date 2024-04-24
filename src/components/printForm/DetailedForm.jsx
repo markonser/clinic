@@ -32,7 +32,6 @@ export default function PrintForm({el, onClose, needUpdate = () => { }, patients
   }
 
   async function onSaveFormChanges() {
-    console.log('=== formItems PrintForm.jsx [35] ===', formItems);
     const {doctorDay, day, doctorFio, ...rest} = formItems;
     const unixDayFormat = convertTimeToUnix(dayISO);
     const body = {
