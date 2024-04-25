@@ -21,25 +21,25 @@ export default function RootLayout({children}) {
   useEffect(() => {
     if (userContextState.role) {
       return;
+    } else {
+      (async () => {
+        try {
+          const {data} = await axios.get('/api/checkAuth');
+          if (data.user.role !== USER_ROLES.admin) {router.push('/');}
+          setUserContextState(data.user);
+          setIsAuth(true);
+        } catch (error) {
+          router.push('/');
+        }
+
+        const {docTMP, patTMP, admTMP} = await getInitialLoadInfo();
+        setDataContextState({
+          doctorsListStore: [...docTMP],
+          adminsListStore: [...admTMP],
+          patientsListStore: [...patTMP]
+        });
+      })();
     }
-    (async () => {
-      try {
-        const {data} = await axios.get('/api/checkAuth');
-        if (data.user.role !== USER_ROLES.admin) {router.push('/');}
-        setUserContextState(data.user);
-        setIsAuth(true);
-      } catch (error) {
-        router.push('/');
-      }
-
-      const {docTMP, patTMP, admTMP} = await getInitialLoadInfo();
-      setDataContextState({
-        doctorsListStore: [...docTMP],
-        adminsListStore: [...admTMP],
-        patientsListStore: [...patTMP]
-      });
-    })();
-
   }, []);
 
   if (!isAuth) {

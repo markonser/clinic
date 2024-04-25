@@ -80,13 +80,14 @@ export async function POST(req) {
       }, {status: 500});
     }
   }
-
+  //выбраны + ДАТa + пациент + доктор
   if (dayRange.startDate && patientId && doctorId) {
     try {
       const res = await Records.findAll({
         where: {
-          patientId: patientId,
-          doctorId: doctorId,
+          // patientId: patientId,
+          // doctorId: doctorId,
+          [Op.or]: [{patientId: patientId}, {doctorId: doctorId}],
           day: {
             [Op.between]: [dayRange.startDate, dayRange.endDate]
           }
@@ -133,6 +134,8 @@ export async function POST(req) {
       }, {status: 500});
     }
   }
+
+
   console.log('=== что-то пошло не так( route.js [60] ===');
   return NextResponse.json({
     message: `что-то пошло не так(`

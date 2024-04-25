@@ -18,17 +18,18 @@ export default function RootLayout({children}) {
   useEffect(() => {
     if (userContextState.role) {
       return;
+    } else {
+      (async () => {
+        try {
+          const {data} = await axios.get('/api/checkAuth');
+          if (data.user.role !== USER_ROLES.patient) {router.push('/');}
+          setUserContextState(data.user);
+          setIsAuth(true);
+        } catch (error) {
+          router.push('/');
+        }
+      })();
     }
-    (async () => {
-      try {
-        const {data} = await axios.get('/api/checkAuth');
-        if (data.user.role !== USER_ROLES.patient) {router.push('/');}
-        setUserContextState(data.user);
-        setIsAuth(true);
-      } catch (error) {
-        router.push('/');
-      }
-    })();
   }, []);
 
   if (!isAuth) {

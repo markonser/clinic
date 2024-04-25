@@ -1,0 +1,13 @@
+.create_new_modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top: 30%;
+  width: 400px;
+  background-color: #e5edf1;
+  border: 1px solid #00ABE4;
+  border-radius: 4px;
+  padding: 2rem;
+}

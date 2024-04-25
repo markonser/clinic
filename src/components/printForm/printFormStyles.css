@@ -1,5 +1,5 @@
 .modal {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,6 +9,7 @@
   right: 0;
   background: #00ABE4;
   z-index: 10;
+  height: 100dvh;
 }
 
 .modal_content {
@@ -18,6 +19,7 @@
   width: 80%;
   background-color: #9af3c6;
   padding: 2rem;
+
 }
 
 .modal_title {

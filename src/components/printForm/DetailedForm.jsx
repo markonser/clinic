@@ -45,6 +45,7 @@ export default function PrintForm({el, onClose, needUpdate = () => { }, patients
       const res = await axios.put('/api/record', body);
       if (res) {
         NotificationManager.success('Сообщение.', 'Изменения сохранены', 5000);
+        NotificationManager.info('Сообщение.', 'Нажмите обновить', 5000);
         setConfirmDelete('');
         needUpdate((prev) => prev += 1);
         onClose('');
@@ -139,6 +140,7 @@ export default function PrintForm({el, onClose, needUpdate = () => { }, patients
               <button button className='btn_default' type="button" onClick={onSaveFormChanges}>Сохранить изменения</button>
             }
             <button className='btn_default' type="button" onClick={() => onClose('')}>Закрыть</button>
+            <button className='btn_default' type="button" onClick={() => window.print()}>Распечатать</button>
             {userContextState.role !== USER_ROLES.patient &&
               <button className='btn_default' type="button" onClick={() => setConfirmDelete(el.id)}>Удалить запись</button>
             }

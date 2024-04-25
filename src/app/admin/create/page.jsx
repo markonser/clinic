@@ -7,22 +7,21 @@ import '../../styles/input.css';
 import {UserContext} from '@/userContext/UserContext';
 import Select from 'react-select';
 import {DataContext} from '@/dataContext/DataContext';
-import {useRouter} from 'next/navigation';
 import axios from 'axios';
 import {WORK_TIME_INTERVALS} from '@/constants/constants';
 import {checkInTimeInterval, convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import {NotificationManager} from 'react-notifications';
 import '@/components/printForm/printFormStyles.css';
 import PrintForm from '@/components/printForm/DetailedForm.jsx';
+import NewRecord from '@/components/newRecordModal/newRecord';
 
 
 export default function Create() {
-  let router = [];
-  typeof window !== 'undefined' ? router = useRouter() : '';
   const {userContextState} = useContext(UserContext);
   const {dataContextState} = useContext(DataContext);
 
-  const [isShow, setIsShow] = useState(false);
+  const [isShowCreateNewModal, setIsShowCreateNewModal] = useState(false);
+  const [isShowChart, setIsShowChart] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
   const [patientListHistory, setPatientListHistory] = useState([]);
   const [detailsForm, setDetailsForm] = useState('');
@@ -37,52 +36,67 @@ export default function Create() {
     setDetailsForm(el);
   }
 
+  function onShowCreateNewModal(time) {
+    if (!inputDay || !patientSelect?.value || !docSelect?.value) {
+      NotificationManager.error('Ошибка', 'Все поля обязательны к заполнению', 5000);
+      return;
+    }
+    setIsShowCreateNewModal(time);
+  }
+
   function onShowHistory(el) {
     getUserRecords(el.patientId);
     setIsHistory(true);
   }
 
-  function onDateTimeChange(value) {
+  function onDateTimeInputChange(value) {
     setInputDay(value);
     setRecordsState([]);
     setPatientListHistory([]);
-    setIsShow(false);
+    setIsShowChart(false);
   }
 
-  function onDocChartHandle() {
+  function onDocWorkChartHandle() {
     setIsHistory(false);
+    setRecordsState([]);
+    setPatientListHistory([]);
 
-    //выбраны нет ДАТЫ + пациент - доктор
+    //выбраны нет ДАТЫ + пациент + доктор
     if (!inputDay && patientSelect?.value && docSelect?.value) {
+      console.log('===  page.jsx [63] ===',);
       getRecByDay(false, docSelect?.value, patientSelect?.value);
       setIsHistory(true);
       return;
     }
     //выбраны нет ДАТЫ + пациент - доктор
     if (!inputDay && patientSelect?.value && !docSelect?.value) {
+      console.log('===  page.jsx [70] ===',);
       getRecByDay(false, false, patientSelect?.value);
       setIsHistory(true);
       return;
     }
     //выбраны дата + пациент + доктор
     if (inputDay && patientSelect?.value && docSelect?.value) {
+      console.log('===  page.jsx [77] ===',);
       getRecByDay(inputDay, docSelect?.value, patientSelect?.value);
       setIsHistory(false);
-      setIsShow(true);
+      setIsShowChart(true);
       return;
     }
     //выбраны дата + пациент - без доктора
     if (inputDay && patientSelect?.value && !docSelect?.value) {
+      console.log('===  page.jsx [85] ===',);
       getRecByDay(inputDay, false, patientSelect?.value);
       setIsHistory(true);
-      setIsShow(true);
+      setIsShowChart(true);
       return;
     }
-    //выбраны дата - без пациента + доктор
+    //выбраны + дата - без пациента + доктор
     if (inputDay && !patientSelect?.value && docSelect?.value) {
+      console.log('===  page.jsx [93] ===',);
       getRecByDay(inputDay, docSelect?.value, false);
       setIsHistory(false);
-      setIsShow(true);
+      setIsShowChart(true);
       return;
     }
   }
@@ -109,7 +123,6 @@ export default function Create() {
     try {
       const res = await axios.post(`/api/record/getByDay`, data);
       if (res) {
-        const activeTmp = res.data.res.filter(el => el.isHistory === false || el.isHistory === null);
         setPatientListHistory(res.data.res);
         setRecordsState(res.data.res);
         res.data.res.length === 0
@@ -122,14 +135,14 @@ export default function Create() {
     }
   }
 
-  async function onQuickSave(e) {
+  async function onQuickSave(day = false) {
     if (!inputDay || !patientSelect?.value || !docSelect?.value) {
       NotificationManager.info('Ошибка', 'Все поля обязательны к заполнению', 5000);
       return;
     }
 
     const data = {
-      day: convertTimeToUnix(inputDay),
+      day: !!day ? convertTimeToUnix(day) : convertTimeToUnix(inputDay),
       patientId: patientSelect?.value,
       fio: patientSelect?.label,
       doctorId: docSelect?.value,
@@ -140,8 +153,11 @@ export default function Create() {
     try {
       const res = await axios.post('/api/record', data);
       if (res) {
+        console.log('===  page.jsx [155] ===',);
         NotificationManager.success('OK', 'Запись сохранена.', 5000);
-        getRecByDay(inputDay, docSelect?.value, false);
+        // getRecByDay(inputDay, docSelect?.value, false);
+        onDocWorkChartHandle();
+        setIsShowCreateNewModal(false);
         NotificationManager.info('Обновлен', `Список записи для ${docSelect?.label}`, 10000);
       }
     } catch (error) {
@@ -173,29 +189,12 @@ export default function Create() {
                 type="datetime-local"
                 name="doctor_day"
                 value={inputDay}
-                onChange={(evt) => {setIsShow(false); onDateTimeChange(evt.target.value);}}
+                onChange={(evt) => {setIsShowChart(false); onDateTimeInputChange(evt.target.value);}}
                 step={"1800"}
 
               />
             </label>
-            <label>
-              <div>ФИО пациента:</div>
-              <Select
-                isSearchable
-                isClearable
-                className='pat_select'
-                name='fio'
-                options={patientsSelectOptions}
-                defaultValue={{value: '', label: '---'}}
-                onChange={(newValue) => {
-                  setRecordsState([]);
-                  setPatientSelect(newValue);
-                  setPatientListHistory([]);
-                  setIsShow(false);
-                }}
-                noOptionsMessage={() => 'не найдено'}
-              />
-            </label>
+
             <label>
               <div>ФИО врача:</div>
               <Select
@@ -209,7 +208,26 @@ export default function Create() {
                   setRecordsState([]);
                   setDocSelect(newValue);
                   setPatientListHistory([]);
-                  setIsShow(false);
+                  setIsShowChart(false);
+                }}
+                noOptionsMessage={() => 'не найдено'}
+              />
+            </label>
+
+            <label>
+              <div>ФИО пациента:</div>
+              <Select
+                isSearchable
+                isClearable
+                className='pat_select'
+                name='fio'
+                options={patientsSelectOptions}
+                defaultValue={{value: '', label: '---'}}
+                onChange={(newValue) => {
+                  setPatientSelect(newValue);
+                  setRecordsState([]);
+                  setPatientListHistory([]);
+                  setIsShowChart(false);
                 }}
                 noOptionsMessage={() => 'не найдено'}
               />
@@ -217,17 +235,17 @@ export default function Create() {
 
           </div>
           <div className="create_form_btns">
-            <button className='btn_default' type="button" onClick={onDocChartHandle}>Показать</button>
+            <button className='btn_default' type="button" onClick={onDocWorkChartHandle}>Показать / Обновить</button>
             {/* <button className='btn_default' type="button">Записи пациента</button> */}
             <Link href='/admin' className='btn_default'>На главную</Link>
             <button className='btn_default' type="button"
               title="Сохраняет запись на указанную дату и время"
-              onClick={onQuickSave}
+              onClick={() => onQuickSave()}
             >Записать пациента</button>
           </div>
         </form>
 
-        {isShow && inputDay && docSelect?.value &&
+        {isShowChart && inputDay && docSelect?.value &&
           <>
             <h2 className='h2'>График работы врачей</h2>
             <table className="record_table">
@@ -254,7 +272,7 @@ export default function Create() {
                     );
                   } else {
                     return (
-                      <tr className='record_table_row' key={time}>
+                      <tr className='record_table_row' key={time} onDoubleClick={() => onShowCreateNewModal(time)}>
                         <td className="record_table_id">{time}</td>
                         <td className="record_table_fio"></td>
                         <td className="record_table_fio"></td>
@@ -333,10 +351,19 @@ export default function Create() {
         {detailsForm?.id && <PrintForm
           el={detailsForm}
           onClose={setDetailsForm}
-          // needUpdate={setNeedUpdate}
           patientsSelectOptions={patientsSelectOptions}
           doctorSelectOptions={doctorSelectOptions}
         />}
+
+        {isShowCreateNewModal &&
+          <NewRecord
+            doctor={docSelect}
+            patient={patientSelect}
+            inputTime={inputDay}
+            timeInChart={isShowCreateNewModal}
+            onClose={setIsShowCreateNewModal}
+            onSave={onQuickSave}
+          />}
 
       </div>
     </>

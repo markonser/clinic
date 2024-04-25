@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import {useContext, useEffect, useRef} from "react";
+import {useRef} from "react";
 import "./page.css";
 import "./styles/input.css";
 import axios from "axios";
 import {USER_ROLES} from "@/constants/constants";
 import {useRouter} from "next/navigation";
-import {UserContext} from "../userContext/UserContext";
 import Header from "@/components/header/header";
-import {DataContext} from "../dataContext/DataContext";
+import {NotificationManager} from "react-notifications";
 
 export default function Login() {
   const router = useRouter();
@@ -28,6 +27,7 @@ export default function Login() {
         if (role === USER_ROLES.patient) router.push('/patient');
       }
     } catch (error) {
+      NotificationManager.error('Ошибка', 'Проверьте логин или пароль.', 5000);
       console.log(error);
     }
   }
