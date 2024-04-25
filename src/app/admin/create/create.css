@@ -20,3 +20,10 @@
 .inHistory {
   color: gray;
 }
+
+@media print {
+
+  .page_content {
+    height: 0;
+  }
+}

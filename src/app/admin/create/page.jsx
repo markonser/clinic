@@ -22,6 +22,7 @@ export default function Create() {
   const {userContextState} = useContext(UserContext);
   const {dataContextState} = useContext(DataContext);
 
+  const [isShow, setIsShow] = useState(false);
   const [isHistory, setIsHistory] = useState(false);
   const [patientListHistory, setPatientListHistory] = useState([]);
   const [detailsForm, setDetailsForm] = useState('');
@@ -45,6 +46,7 @@ export default function Create() {
     setInputDay(value);
     setRecordsState([]);
     setPatientListHistory([]);
+    setIsShow(false);
   }
 
   function onDocChartHandle() {
@@ -66,18 +68,21 @@ export default function Create() {
     if (inputDay && patientSelect?.value && docSelect?.value) {
       getRecByDay(inputDay, docSelect?.value, patientSelect?.value);
       setIsHistory(false);
+      setIsShow(true);
       return;
     }
     //выбраны дата + пациент - без доктора
     if (inputDay && patientSelect?.value && !docSelect?.value) {
       getRecByDay(inputDay, false, patientSelect?.value);
       setIsHistory(true);
+      setIsShow(true);
       return;
     }
     //выбраны дата - без пациента + доктор
     if (inputDay && !patientSelect?.value && docSelect?.value) {
       getRecByDay(inputDay, docSelect?.value, false);
       setIsHistory(false);
+      setIsShow(true);
       return;
     }
   }
@@ -168,7 +173,7 @@ export default function Create() {
                 type="datetime-local"
                 name="doctor_day"
                 value={inputDay}
-                onChange={(evt) => onDateTimeChange(evt.target.value)}
+                onChange={(evt) => {setIsShow(false); onDateTimeChange(evt.target.value);}}
                 step={"1800"}
 
               />
@@ -186,6 +191,7 @@ export default function Create() {
                   setRecordsState([]);
                   setPatientSelect(newValue);
                   setPatientListHistory([]);
+                  setIsShow(false);
                 }}
                 noOptionsMessage={() => 'не найдено'}
               />
@@ -203,6 +209,7 @@ export default function Create() {
                   setRecordsState([]);
                   setDocSelect(newValue);
                   setPatientListHistory([]);
+                  setIsShow(false);
                 }}
                 noOptionsMessage={() => 'не найдено'}
               />
@@ -220,7 +227,7 @@ export default function Create() {
           </div>
         </form>
 
-        {inputDay && docSelect?.value &&
+        {isShow && inputDay && docSelect?.value &&
           <>
             <h2 className='h2'>График работы врачей</h2>
             <table className="record_table">
