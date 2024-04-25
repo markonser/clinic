@@ -16,3 +16,7 @@
 .create_form_btns {
   margin-top: 1rem;
 }
+
+.inHistory {
+  color: gray;
+}

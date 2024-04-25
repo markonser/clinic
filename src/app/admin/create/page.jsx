@@ -18,7 +18,7 @@ import PrintForm from '@/components/printForm/DetailedForm.jsx';
 
 export default function Create() {
   let router = [];
-  typeof window !== 'undefined' ? router = useRouter() : ''
+  typeof window !== 'undefined' ? router = useRouter() : '';
   const {userContextState} = useContext(UserContext);
   const {dataContextState} = useContext(DataContext);
 
@@ -49,10 +49,7 @@ export default function Create() {
 
   function onDocChartHandle() {
     setIsHistory(false);
-    // if (!patientSelect?.value || docSelect?.value) {
-    //   NotificationManager.info('Сообщение', 'Выберите пациента или врача', 5000);
-    //   return;
-    // }
+
     //выбраны нет ДАТЫ + пациент - доктор
     if (!inputDay && patientSelect?.value && docSelect?.value) {
       getRecByDay(false, docSelect?.value, patientSelect?.value);
@@ -85,6 +82,7 @@ export default function Create() {
     }
   }
   async function getUserRecords(id) {
+    setPatientListHistory([]);
     try {
       const res = await axios.get(`/api/record/${id}`);
       if (res) {
@@ -107,7 +105,7 @@ export default function Create() {
       const res = await axios.post(`/api/record/getByDay`, data);
       if (res) {
         const activeTmp = res.data.res.filter(el => el.isHistory === false || el.isHistory === null);
-        // setPatientListActive(activeTmp);
+        setPatientListHistory(res.data.res);
         setRecordsState(res.data.res);
         res.data.res.length === 0
           ? NotificationManager.info('Сообщение', 'По заданным параметрам нет записей', 5000)
@@ -308,7 +306,11 @@ export default function Create() {
                 {patientListHistory?.map((el) => {
                   const day = fromUnixTimeToHumanFormat(el.day);
                   return (
-                    <tr className='record_table_row' key={el.id} onDoubleClick={() => onShowPrintForm(el)} title='Двойной клик для подробностей'>
+                    <tr className={`record_table_row ${el.isHistory ? 'inHistory' : ''}`}
+                      key={el.id}
+                      onDoubleClick={() => onShowPrintForm(el)}
+                      title='Двойной клик для подробностей'
+                    >
                       <td className="record_table_id">{el.id}</td>
                       <td className="record_table_fio">{el.doctorFio}</td>
                       <td className="record_table_fio">{el.fio}</td>

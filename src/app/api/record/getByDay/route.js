@@ -119,7 +119,7 @@ export async function POST(req) {
         }
       });
       if (res) {
-        console.log('=== res patientId && !doctorId ===', res.length);
+        console.log('=== 122 res patientId && !doctorId ===', res.length);
         return NextResponse.json({
           message: 'Записи загружены', res
         }, {status: 200});
