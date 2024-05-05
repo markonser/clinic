@@ -13,6 +13,12 @@ import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils
 import Select from 'react-select';
 import PrintForm from '@/components/printForm/DetailedForm.jsx';
 
+import {doctorSteps} from './doctor_enjoyhint_steps ';
+import enjoyhint from 'xbs-enjoyhint/src/enjoyhint';
+
+
+
+
 export default function Doctor() {
   const {userContextState} = useContext(UserContext);
   const {dataContextState, setDataContextState} = useContext(DataContext);
@@ -29,6 +35,11 @@ export default function Doctor() {
   const patientsSelectOptions = dataContextState?.patientsListStore.map(el => {return {value: el.id, label: el.fio};});
   const doctorSelectOptions = dataContextState?.doctorsListStore.map(el => {return {value: el.id, label: el.fio};});
 
+
+  var enjoyhint_instance = new enjoyhint({});
+  enjoyhint_instance.set(doctorSteps);
+  // run Enjoyhint script
+  enjoyhint_instance.run();
 
   async function getPatients(isHistorySearchFlag = false, fio = '', day = new Date(), isUnixTime = false) {
     setPatientList([]);
