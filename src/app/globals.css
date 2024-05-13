@@ -122,7 +122,7 @@ a {
 }
 
 .record_table_row:active {
-  background-color: rgb(29, 245, 0);
+  background-color: #1df500;
 }
 
 .record_table_id {
@@ -143,4 +143,19 @@ a {
   flex: 1;
   display: block;
   text-align: center;
+}
+
+.help {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid #00ABE4;
+}
+
+.help:hover{
+  cursor: pointer;
+  background-color: #00ABE4;
 }

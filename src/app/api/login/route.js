@@ -3,14 +3,24 @@ import {NextResponse} from "next/server";
 import bcrypt from "bcrypt";
 import {sign} from "jsonwebtoken";
 import {serialize} from "cookie";
+import {Op} from "sequelize";
 
 const MAX_AGE = 60 * 60 * 24 * 30;
 const secret = process.env.JWT_SECRET;
 
 export async function GET(req) {
-
+  const fio = req.nextUrl.searchParams.get('fio');
+  console.log('=== params route.js [12] ===', fio);
   try {
-    const res = await Users.findAll();
+    const res = fio
+      ? await Users.findAll({
+        where: {
+          fio: {
+            [Op.like]: `%${fio}%`,
+          }
+        }
+      })
+      : await Users.findAll({limit: 100});
     if (res) {
       const users = res.map((el) => {
         const {password, ...user} = el.dataValues;

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import './doctor.css';
 import '../styles/input.css';
 import 'react-notifications/lib/notifications.css';
@@ -12,12 +12,8 @@ import {DataContext} from '../../dataContext/DataContext';
 import {convertTimeToUnix, fromUnixTimeToHumanFormat, getDayRange} from '@/utils/getLocalTimeForDisplay';
 import Select from 'react-select';
 import PrintForm from '@/components/printForm/DetailedForm.jsx';
-
-import {doctorSteps} from './doctor_enjoyhint_steps ';
-import enjoyhint from 'xbs-enjoyhint/src/enjoyhint';
-
-
-
+// import {doctorSteps} from './doctor_enjoyhint_steps ';
+// import enjoyhint from "xbs-enjoyhint/src/enjoyhint";
 
 export default function Doctor() {
   const {userContextState} = useContext(UserContext);
@@ -34,12 +30,10 @@ export default function Doctor() {
   const [isDayEmpty, setDayEmpty] = useState('');
   const patientsSelectOptions = dataContextState?.patientsListStore.map(el => {return {value: el.id, label: el.fio};});
   const doctorSelectOptions = dataContextState?.doctorsListStore.map(el => {return {value: el.id, label: el.fio};});
+  // const enjoyhint_instance = new enjoyhint({});
+  // enjoyhint_instance.set(doctorSteps);
 
 
-  var enjoyhint_instance = new enjoyhint({});
-  enjoyhint_instance.set(doctorSteps);
-  // run Enjoyhint script
-  enjoyhint_instance.run();
 
   async function getPatients(isHistorySearchFlag = false, fio = '', day = new Date(), isUnixTime = false) {
     setPatientList([]);
@@ -133,18 +127,21 @@ export default function Doctor() {
 
   return (
     <>
-      {detailsForm?.id && <PrintForm
+      {detailsForm?.id && <div id='modal'><PrintForm
         el={detailsForm}
         onClose={setDetailsForm}
         needUpdate={setNeedUpdate}
         patientsSelectOptions={patientsSelectOptions}
         doctorSelectOptions={doctorSelectOptions}
-      />}
+      />
+      </div>
+      }
       <div className="page_content">
+
         <h2 className="h2">Создание и поиск записи</h2>
         <form className="doctor_form">
-          <label>
-            <div>Дата приема:</div>
+          <label className='hint_date'>
+            <div>Дата и время:</div>
             <input
               type="datetime-local"
               name="doctor_day"
@@ -153,7 +150,7 @@ export default function Doctor() {
               onChange={(evt) => setDayEmpty(evt.target.value)}
             />
           </label>
-          <label>
+          <label className='hint_fio'>
             <div>ФИО пациента:</div>
             <Select
               isClearable
@@ -171,6 +168,7 @@ export default function Doctor() {
 
         <div className="doctor_action_btn_wrapper">
           <button
+            id='btn1'
             className='btn_default doctor_btn'
             type="button"
             title='Последние 100 записей указанного пациента БЕЗ УЧЕТА ДАТЫ.'
@@ -180,6 +178,7 @@ export default function Doctor() {
             {!!fioValue ? `Показать историю для: ${fioValue?.label}` : `Введите ФИО`}
           </button>
           <button
+            id='btn2'
             className='btn_default doctor_btn'
             type="button"
             title='Если указана только ДАТА - найдет все записи в этот день, если ДАТА и ФИО - найдет записи только для указанного пациента в этот день.' onClick={onSearch}
@@ -189,6 +188,7 @@ export default function Doctor() {
               : `Показать все записи на сегодня`}
           </button>
           <button
+            id='btn3'
             className='btn_default doctor_btn'
             type="button"
             title='Сохраняет запись для указанного пациента в выбранный день.'
@@ -200,7 +200,7 @@ export default function Doctor() {
         </div>
 
         <h2 className='h2'>Активные записи:</h2>
-        <table className="record_table">
+        <table className="record_table" id='active_table'>
           <thead >
             <tr className='record_table_header'>
               <td className="record_table_id table_header_item">Номер</td>
@@ -212,7 +212,10 @@ export default function Doctor() {
             {patientListActive.map((el) => {
               const day = fromUnixTimeToHumanFormat(el.day);
               return (
-                <tr className='record_table_row' key={el.id} onDoubleClick={() => onShowFullInfo(el)} title='Двойной клик для подробностей'>
+                <tr
+                  className='record_table_row'
+                  key={el.id} onDoubleClick={() => onShowFullInfo(el)}
+                  title='Двойной клик для подробностей'>
                   <td className="record_table_id">{el.id}</td>
                   <td className="record_table_fio">{el.fio}</td>
                   <td className="record_table_time">{day}</td>

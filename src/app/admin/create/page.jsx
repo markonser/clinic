@@ -183,7 +183,7 @@ export default function Create() {
 
         <form className='admin_create_form'>
           <div className='inputs_wrapper'>
-            <label>
+            <label id='hintDate'>
               <div>Дата приема:</div>
               <input
                 type="datetime-local"
@@ -195,7 +195,7 @@ export default function Create() {
               />
             </label>
 
-            <label>
+            <label id='hintDoctorFio'>
               <div>ФИО врача:</div>
               <Select
                 isSearchable
@@ -214,7 +214,7 @@ export default function Create() {
               />
             </label>
 
-            <label>
+            <label >
               <div>ФИО пациента:</div>
               <Select
                 isSearchable
@@ -238,7 +238,7 @@ export default function Create() {
             <button className='btn_default' type="button" onClick={onDocWorkChartHandle}>Показать / Обновить</button>
             {/* <button className='btn_default' type="button">Записи пациента</button> */}
             <Link href='/admin' className='btn_default'>На главную</Link>
-            <button className='btn_default' type="button"
+            <button className='btn_default' type="button" id='makeRecordBTN'
               title="Сохраняет запись на указанную дату и время"
               onClick={() => onQuickSave()}
             >Записать пациента</button>

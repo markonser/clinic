@@ -2,6 +2,7 @@
   background-color: #9af3c6;
   font-family: 'Times New Roman', Times, serif;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
 }

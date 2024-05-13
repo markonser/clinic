@@ -85,9 +85,7 @@ export async function POST(req) {
     try {
       const res = await Records.findAll({
         where: {
-          // patientId: patientId,
-          // doctorId: doctorId,
-          [Op.or]: [{patientId: patientId}, {doctorId: doctorId}],
+          [Op.and]: [{patientId: patientId}, {doctorId: doctorId}],
           day: {
             [Op.between]: [dayRange.startDate, dayRange.endDate]
           }

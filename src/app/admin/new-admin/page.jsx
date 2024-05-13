@@ -14,15 +14,15 @@ import {usePathname, useRouter} from 'next/navigation';
 import {getAllUsers} from '@/utils/getAllUsers';
 import Header from '@/components/header/header';
 import ConfirmDeleteModal from '@/components/confirmDeleteModal/confirmDeleteModal';
+import {getOneUser} from '@/utils/getOneUser';
 
 export default function NewAdmin() {
   const [inputsState, setInputsState] = useState(INITIAL_FORM_VALUES);
   const [isEditMode, setIsEditMode] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const {userContextState} = useContext(UserContext);
   const location = usePathname();
-  const router = useRouter();
   const [usersList, setUsersList] = useState();
+  const [findFio, setFindFio] = useState();
   const roleRef = useRef();
 
   function onChangeFormData(evt) {
@@ -94,6 +94,12 @@ export default function NewAdmin() {
     const data = await getAllUsers();
     setUsersList(data);
   }
+  async function findUser() {
+    const data = await getOneUser(findFio);
+    console.log('=== findFio page.jsx [97] ===',data);
+    setUsersList(data);
+  }
+
 
   function fake() { }
   async function onDelete(id) {
@@ -127,15 +133,15 @@ export default function NewAdmin() {
         <h2 className={`h2 `}>
           {isEditMode ? 'Редактирование данных пользователя' : 'Создать нового пользователя'}
         </h2>
-        <form className={`new_office_user_form ${isEditMode ? 'editMode' : ''}`} onChange={(evt) => onChangeFormData(evt)}>
+        <form className={`new_office_user_form ${isEditMode ? 'editMode' : ''}`} onInput={(evt) => onChangeFormData(evt)}>
           <div className="auth_data">
             <div title='Нужен для входа на сайт'>
               <div>Login:</div>
-              <input className="" type="text" name="login" onChange={fake} value={inputsState.login} />
+              <input className="" type="text" name="login" onInput={fake} value={inputsState.login} />
             </div>
             <div title='Нужен для входа на сайт'>
               <div>Password:</div>
-              <input className="" type="text" name="password" onChange={fake} value={inputsState.password} />
+              <input className="" type="text" name="password" onInput={fake} value={inputsState.password} />
             </div>
             <div title='Нужен для входа на сайт'>
               <div>Тип пользователя:</div>
@@ -150,29 +156,29 @@ export default function NewAdmin() {
           <div>
             <div>
               <div>ФИО</div>
-              <input className="" type="text" name="fio" onChange={fake} value={inputsState.fio} />
+              <input className="" type="text" name="fio" onInput={fake} value={inputsState.fio} />
             </div>
             <div className="phone">
               <div>Телефон</div>
-              <input className="" type="text" name="phone" onChange={fake} value={inputsState.phone} />
+              <input className="" type="text" name="phone" onInput={fake} value={inputsState.phone} />
               {isEditMode && <div>
                 <div>id пользователя</div>
-                <input className="" type="text" name="id" onChange={fake} value={inputsState.id} disabled />
+                <input className="" type="text" name="id" onInput={fake} value={inputsState.id} disabled />
               </div>}
             </div>
           </div>
           <div>
             <div className="passport">
               <div>Паспорт</div>
-              <input className="" type="text" name="passport" onChange={fake} value={inputsState.passport} /></div>
+              <input className="" type="text" name="passport" onInput={fake} value={inputsState.passport} /></div>
             <div className="address">
               <div>Адрес</div>
-              <input className="" type="text" name="address" onChange={fake} value={inputsState.address} />
+              <input className="" type="text" name="address" onInput={fake} value={inputsState.address} />
             </div>
           </div>
           <div>
             <div>Дата рождения</div>
-            <input className="" type="date" name="born" onChange={fake} value={inputsState.born} />
+            <input className="" type="date" name="born" onInput={fake} value={inputsState.born} />
             {isEditMode && <button type="button" className='btn_default delete_btn' onClick={() => setConfirmDelete(inputsState.id)}>
               Удалить
             </button>}
@@ -188,48 +194,54 @@ export default function NewAdmin() {
           {!isEditMode && <Link href='/admin' className='btn_default'>Вернуться на главную</Link>}
         </form>
 
-        <h2 className='h2'>Все зарегистрированные пользователи:</h2>
-
-        <table className="new_patient_table">
-          <thead>
-            <tr className='new_patient_thead'>
-              <th className="new_patient_id">Личное дело</th>
-              <th className="new_patient_login">Login</th>
-              <th className="new_patient_fio">ФИО</th>
-              <th className="new_patient_born">Дата рождения</th>
-              <th className="new_patient_phone">Телефон</th>
-              <th className="new_patient_passport">Паспорт</th>
-              <th className="new_patient_address">Адрес</th>
-              <th className="new_patient_role">Доступ</th>
-            </tr>
-          </thead>
-          <tbody className='new_patient_body'>
-            {usersList && usersList.map(el => {
-              const born = fromUnixTimeToHumanFormat(el.born, {
-                day: '2-digit',
-                month: 'short',
-                year: '2-digit',
-                hour: '2-digit',
-              }).slice(0, 13);
-              return (
-                <tr className='new_patient_tr'
-                  key={el.id}
-                  onDoubleClick={() => onEditUser(el)}
-                  title='Двойной клик для редактирования пользователя'
-                >
-                  <td className="new_patient_id">{el.id}</td>
-                  <td className="new_patient_login">{el.login}</td>
-                  <td className="new_patient_fio">{el.fio}</td>
-                  <td className="new_patient_born">{born}</td>
-                  <td className="new_patient_phone">{el.phone}</td>
-                  <td className="new_patient_passport">{el.passport}</td>
-                  <td className="new_patient_address">{el.address}</td>
-                  <td className="new_patient_role">{USER_ROLES_RU[el.role]}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <h2 className='h2'>100 последних зарегистрированных пользователей:</h2>
+        <div className='find_user'>
+          <div className='find_user_title'>Найти пользователя по ФИО:</div>
+          <input className="find_user_input" type="text" name="find_user" onInput={(e)=>setFindFio(e.target.value)} value={findFio} />
+          <button className='btn_default' onClick={findUser}>Найти</button>
+        </div>
+        <div id="table-scroll">
+          <table className="new_patient_table">
+            <thead>
+              <tr className='new_patient_thead'>
+                <th className="new_patient_id">Личное дело</th>
+                <th className="new_patient_login">Login</th>
+                <th className="new_patient_fio">ФИО</th>
+                <th className="new_patient_born">Дата рождения</th>
+                <th className="new_patient_phone">Телефон</th>
+                <th className="new_patient_passport">Паспорт</th>
+                <th className="new_patient_address">Адрес</th>
+                <th className="new_patient_role">Доступ</th>
+              </tr>
+            </thead>
+            <tbody className='new_patient_body'>
+              {usersList && usersList.map(el => {
+                const born = fromUnixTimeToHumanFormat(el.born, {
+                  day: '2-digit',
+                  month: 'short',
+                  year: '2-digit',
+                  hour: '2-digit',
+                }).slice(0, 13);
+                return (
+                  <tr className='new_patient_tr'
+                    key={el.id}
+                    onDoubleClick={() => onEditUser(el)}
+                    title='Двойной клик для редактирования пользователя'
+                  >
+                    <td className="new_patient_id">{el.id}</td>
+                    <td className="new_patient_login">{el.login}</td>
+                    <td className="new_patient_fio">{el.fio}</td>
+                    <td className="new_patient_born">{born}</td>
+                    <td className="new_patient_phone">{el.phone}</td>
+                    <td className="new_patient_passport">{el.passport}</td>
+                    <td className="new_patient_address">{el.address}</td>
+                    <td className="new_patient_role">{USER_ROLES_RU[el.role]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         {confirmDelete && <ConfirmDeleteModal
           id={isEditMode}

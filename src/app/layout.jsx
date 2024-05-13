@@ -26,7 +26,6 @@ export default function RootLayout({children}) {
   return (
     <html lang="en">
       <Head>
-        {/* <link href="../../node_modules/xbs-enjoyhint/enjoyhint.css" rel="stylesheet"/> */}
       </Head>
       <body className="body">
         <Provider>

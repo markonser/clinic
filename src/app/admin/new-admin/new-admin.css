@@ -15,13 +15,20 @@
 }
 
 .new_patient_table {
-  max-width: 95%;
-  max-height: 800px;
+  width: 95%;
   padding: 1rem;
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
   margin-top: 1rem;
+}
+
+#table-scroll {
+  display: flex;
+  padding: 0;
+  width: 95%;
+  justify-content: center;
+  max-height: 400px;
   overflow-y: auto;
 }
 
@@ -84,4 +91,14 @@
   width: 95%;
   margin-bottom: 0;
   margin-top: 24px;
+}
+
+.find_user {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.find_user_title {
+  width: 400px;
 }
