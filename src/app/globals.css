@@ -13,7 +13,7 @@ a {
 }
 
 .body {
-  background-color: #00ABE4;
+  background-color: #61bddb;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,7 @@ a {
   align-items: center;
   justify-content: center;
   width: 90vw;
-  background-color: #9af3c6;
+  background-color: #F0EAD6;
   margin-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -55,7 +55,7 @@ a {
 .btn_default {
   padding: 0.5rem 1rem;
   margin: 0.5rem;
-  border: 1px solid #00ABE4;
+  border: 1px solid #61bddb;
   background: transparent;
   cursor: pointer;
   border-radius: 6px;
@@ -122,7 +122,7 @@ a {
 }
 
 .record_table_row:active {
-  background-color: #1df500;
+  background-color: #F0EAD6;
 }
 
 .record_table_id {
@@ -152,10 +152,10 @@ a {
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  border: 1px solid #00ABE4;
+  border: 1px solid #61bddb;
 }
 
 .help:hover{
   cursor: pointer;
-  background-color: #00ABE4;
+  background-color: #61bddb;
 }

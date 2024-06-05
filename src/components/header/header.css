@@ -1,5 +1,5 @@
 .header {
-  background-color: #9af3c6;
+  background-color: #F0EAD6;
   font-family: 'Times New Roman', Times, serif;
   display: flex;
   align-items: center;
@@ -18,5 +18,13 @@
 }
 
 .header_exit_btn {
+  margin-left: 1rem;
+}
+
+.logo {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
   margin-left: 1rem;
 }

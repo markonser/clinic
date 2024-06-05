@@ -7,7 +7,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: #00ABE4;
+  background: #61bddb;
   z-index: 10;
   height: 100dvh;
 }
@@ -17,7 +17,7 @@
   align-content: start;
   justify-items: center;
   width: 80%;
-  background-color: #9af3c6;
+  background-color: #F0EAD6;
   padding: 2rem;
 
 }

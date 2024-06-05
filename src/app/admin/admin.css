@@ -21,14 +21,14 @@
   text-align: center;
   width: 150px;
   height: 150px;
-  background-color: #9af3c6;
+  background-color: #F0EAD6;
   cursor: pointer;
 }
 
 .nav_btn_big:hover {
-  background-color: #9af3c7b9;
+  background-color: #F0EAD6;
 }
 
 .nav_btn_big:active {
-  background-color: #c3f7dd;
+  background-color: #F0EAD6;
 }

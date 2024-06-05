@@ -72,7 +72,7 @@
 }
 
 .new_patient_tr:nth-child(odd) {
-  background-color: #2fc5f7;
+  background-color: #61bddb;
 }
 
 .new_patient_tr:hover {
@@ -80,11 +80,11 @@
 }
 
 .new_patient_tr:active {
-  background-color: rgb(29, 245, 0);
+  background-color: #F0EAD6;
 }
 
 .editMode {
-  background-color: #2fc5f7;
+  background-color: #61bddb;
 }
 
 .delete_btn {
