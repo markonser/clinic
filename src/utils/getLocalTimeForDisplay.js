@@ -7,9 +7,9 @@ const dateOptions = {
   year: '2-digit',
   hour: '2-digit',
   minute: '2-digit',
-  timeZone: 'Europe/Moscow',
+  // timeZone: 'Europe/Moscow',
+  timeZone: 'Asia/Krasnoyarsk',
 };
-// timeZone: 'Asia/Krasnoyarsk',
 
 // day: 'numeric' or '2-digit';
 // weekday: 'narrow', 'short', or 'long';
